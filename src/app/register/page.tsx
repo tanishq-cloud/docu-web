@@ -65,7 +65,7 @@ const RegistrationForm: React.FC = () => {
         })
       );
 
-      router.push("/register/check-email");
+      router.push("/check-email");
     } catch (err: any) {
       setError(err.message);
     } finally {

@@ -11,7 +11,7 @@ export default function LandingPage() {
     
     <div className="px-4 py-10 mx-auto max-w-7xl">
       <header className="text-center mb-10">
-        <h1 className="text-4xl font-bold mb-4">Welcome to TransformoDocs!</h1>
+        <h1 className="text-4xl font-bold mb-4">Welcome to Docu-Ext!</h1>
         <p className="text-lg text-gray-600">
           Revolutionizing document management with AI and automation.
         </p>
@@ -134,7 +134,7 @@ export default function LandingPage() {
       </section>
 
       <footer className="text-center">
-      <Link href='register'>
+      <Link href='https://sih.gov.in/'>
         <Button size="lg">
           Visit Smart India Hackathon
         </Button>

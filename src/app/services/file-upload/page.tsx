@@ -1,30 +1,42 @@
-'use client';
+'use client'
 
 import { useState, useCallback } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage, db } from '@/lib/firebase';
 import withAuth from "../../../hoc/withAuth";
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Progress } from '@/components/ui/progress';
 import { useDropzone } from 'react-dropzone';
 import { useToast } from '@/hooks/use-toast';
 import { Toaster } from '@/components/ui/toaster';
-import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { doc, updateDoc, arrayUnion, getDoc, setDoc } from 'firebase/firestore';
+import { jsPDF } from 'jspdf';  
+import { Progress } from '@/components/ui/progress';
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB in future we might increase 
+const ALLOWED_IMAGE_FORMATS = ['png', 'jpg', 'jpeg'];
+const ALLOWED_DOCUMENT_FORMATS = ['pdf', 'doc', 'docx', 'odf'];
+//In future - 'tiff', 'gif', 'webp','ppt', 'pptx', 'txt', 'csv', 'json'
+
 
 const DocumentUploader = () => {
   const { toast } = useToast();
   const [file, setFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [conversionProgress, setConversionProgress] = useState(0);
   const [isGovernmentID, setIsGovernmentID] = useState(false);
   const [isLLMKnowledgeBase, setIsLLMKnowledgeBase] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [fileType, setFileType] = useState('');
+  const [containsImages, setContainsImages] = useState(false);
+  const [optimizingDialogOpen, setOptimizingDialogOpen] = useState(false);
 
   const handleDrop = useCallback((acceptedFiles: File[]) => {
     const selectedFile = acceptedFiles[0];
+    const fileExtension = selectedFile.name.split('.').pop()?.toLowerCase();
+    setFileType(fileExtension || '');
+
     if (selectedFile.size > MAX_FILE_SIZE) {
       toast({
         title: 'Error',
@@ -34,8 +46,66 @@ const DocumentUploader = () => {
       setFile(null);
       return;
     }
-    setFile(selectedFile);
+
+    if (ALLOWED_IMAGE_FORMATS.includes(fileExtension || '') || ALLOWED_DOCUMENT_FORMATS.includes(fileExtension || '')) {
+      setFile(selectedFile);
+
+      if (ALLOWED_IMAGE_FORMATS.includes(fileExtension || '')) {
+        // Converting image to PDF if it's not already a PDF
+        if (fileExtension !== 'pdf') {
+          setOptimizingDialogOpen(true);
+          convertImageToPDF(selectedFile);
+        }
+      } else {
+        if (ALLOWED_DOCUMENT_FORMATS.includes(fileExtension || '')) {
+          setDialogOpen(true);
+        if (fileExtension !== 'pdf') {
+          
+          toast({
+            title: 'Tips',
+            description: '📄 This file will be converted and optimized before word extraction. PDF files donot require this.😊',
+          });
+        }
+      }}
+    } else {
+      toast({
+        title: 'Error',
+        description: 'Unsupported file format',
+        variant: 'destructive',
+      });
+      setFile(null);
+    }
   }, [toast]);
+
+
+  //Function to convert image to pdf for optimised data flow
+  const convertImageToPDF = (imageFile: File) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(imageFile);
+
+    reader.onload = () => {
+      const imgData = reader.result as string;
+      const pdf = new jsPDF();
+      const img = new Image();
+      img.src = imgData;
+      img.onload = () => {
+        const imgWidth = pdf.internal.pageSize.getWidth();
+        const imgHeight = (img.height * imgWidth) / img.width;
+        pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
+
+        const pdfBlob = pdf.output('blob');
+        const newFile = new File([pdfBlob], `${imageFile.name.split('.')[0]}.pdf`, { type: 'application/pdf' });
+        setFile(newFile);
+        setTimeout(() => {
+          setOptimizingDialogOpen(false); 
+          toast({
+            title: 'Conversion Complete',
+            description: 'Image has been converted to PDF.',
+          });
+        }, 3000);
+      };
+    };
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop: handleDrop });
 
@@ -69,41 +139,35 @@ const DocumentUploader = () => {
       async () => {
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
-       // Check if metadata document exists, if not, create it
-       const metadataDocRef = doc(db, 'metadata', uid);
-       const metadataDocSnap = await getDoc(metadataDocRef);
-       if (!metadataDocSnap.exists()) {
-         // Create the metadata document if it does not exist
-         await setDoc(metadataDocRef, {
-           files: arrayUnion({
-             filePath: `users/${uid}/${file.name}`,
-             downloadURL,
-             isGovernmentID,
-             isLLMKnowledgeBase,
-             uploadedAt: new Date().toISOString(),
-           }),
-         });
-       } else {
-         // If the metadata document exists, update it
-         await updateDoc(metadataDocRef, {
-           files: arrayUnion({
-             filePath: `users/${uid}/${file.name}`,
-             downloadURL,
-             isGovernmentID,
-             isLLMKnowledgeBase,
-             uploadedAt: new Date().toISOString(),
-           }),
-         });
-       }
+        // Update metadata collection
+        const metadataDocRef = doc(db, 'metadata', uid);
+        const metadataDocSnap = await getDoc(metadataDocRef);
 
+        const fileMetadata = {
+          filePath: `users/${uid}/${file.name}`,
+          downloadURL,
+          isGovernmentID,
+          isLLMKnowledgeBase,
+          containsImages,
+          fileType,
+          uploadedAt: new Date().toISOString(),
+        };
 
-        // Fetch current usedSpace
+        if (!metadataDocSnap.exists()) {
+          await setDoc(metadataDocRef, {
+            files: arrayUnion(fileMetadata),
+          });
+        } else {
+          await updateDoc(metadataDocRef, {
+            files: arrayUnion(fileMetadata),
+          });
+        }
+
+        // Update storage usage
         const userDocRef = doc(db, 'users', uid);
         const userDocSnap = await getDoc(userDocRef);
         if (userDocSnap.exists()) {
           const currentUsedSpace = userDocSnap.data().storageInfo.usedSpace || 0;
-
-          // Update Firestore storageInfo with the new used space
           await updateDoc(userDocRef, {
             'storageInfo.usedSpace': currentUsedSpace + file.size,
           });
@@ -147,19 +211,19 @@ const DocumentUploader = () => {
           </div>
 
           {file && (
-            <div className="mt-4">
-              <p>Selected file: {file.name}</p>
+            <div className="mt-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
+              <p className="font-bold">Selected file: {file.name}</p>
             </div>
           )}
 
           <div className="mt-4 flex items-center gap-2">
             <Checkbox checked={isGovernmentID} onCheckedChange={setIsGovernmentID} />
-            <Label>Is this a government or identity document?</Label>
+            <span>Is this a government or identity document?</span>
           </div>
 
           <div className="mt-4 flex items-center gap-2">
             <Checkbox checked={isLLMKnowledgeBase} onCheckedChange={setIsLLMKnowledgeBase} />
-            <Label>Use for LLM Knowledge Base?</Label>
+            <span>Use for LLM Knowledge Base?</span>
           </div>
 
           <Button onClick={handleUpload} className="mt-4">
@@ -174,6 +238,13 @@ const DocumentUploader = () => {
           )}
 
           <Toaster />
+
+          <div className="mt-4 text-sm text-gray-500 border-t pt-2">
+            <p>
+              <strong>Allowed File Formats:</strong> png, jpg, jpeg, webp, pdf, doc, docx, odf
+            </p>
+          </div>
+      
         </div>
 
         <div className="w-full md:w-1/2 p-4">
@@ -191,6 +262,60 @@ const DocumentUploader = () => {
           </p>
         </div>
       </div>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Does the document contain images?</DialogTitle>
+            <DialogDescription>
+              This helps us use the appropriate model or technique to extract text efficiently.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center gap-4 mt-4">
+            <Button variant="outline" onClick={() => { setContainsImages(true); setDialogOpen(false); }}>
+              Yes
+            </Button>
+            <Button variant="outline" onClick={() => { setContainsImages(false); setDialogOpen(false); }}>
+              No
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Optimizing/Converting File Dialog */}
+      <Dialog open={optimizingDialogOpen} onOpenChange={setOptimizingDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Optimizing and Converting</DialogTitle>
+            <DialogDescription>
+              Please wait while we optimize and convert your document to PDF.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4">
+            <progress value={conversionProgress} max="100" />
+            <p className="mt-2 text-center">{conversionProgress}% Complete</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Does the document contain images?</DialogTitle>
+            <DialogDescription>
+              This helps us use the appropriate model or technique to extract text efficiently.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center gap-4 mt-4">
+            <Button variant="outline" onClick={() => { setContainsImages(true); setDialogOpen(false); }}>
+              Yes
+            </Button>
+            <Button variant="outline" onClick={() => { setContainsImages(false); setDialogOpen(false); }}>
+              No
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

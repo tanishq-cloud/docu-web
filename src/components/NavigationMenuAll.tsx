@@ -17,32 +17,32 @@ import {
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Compress Image",
-    href: "/comming-soon",
+    href: "reading/comming-soon",
     description: "Compress the image file in the browser.",
   },
   {
     title: "Compress PDF",
-    href: "/comming-soon",
+    href: "/reading/comming-soon",
     description: "Compress the PDF file in the browser.",
   },
   {
     title: "Analyse Document",
-    href: "/comming-soon",
+    href: "/reading/comming-soon",
     description: "Get analytical charts for documents with analytical data.",
   },
   {
     title: "Chat with your file",
-    href: "/comming-soon",
+    href: "/reading/comming-soon",
     description: "You can chat with your file having a knowledge base tag.",
   },
   {
     title: "Upload-File",
-    href: "/file-upload",
+    href: "/services/file-upload",
     description: "Get free 100MB of storage. Upload a file in the document management system and extract non-machine-readable text.",
   },
   {
     title: "View File",
-    href: "/manage-files",
+    href: "/services/manage-files",
     description: "View all your files.",
   },
 ];
@@ -72,18 +72,18 @@ export function NavigationMenuAll() {
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <Link href="/docs" legacyBehavior passHref>
+            <Link href="reading/blogs" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>Blogs</NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
 
           {/* Login and Sign Up */}
           <NavigationMenuItem className="space-x-4">
-            <Link href="/login" legacyBehavior passHref>
+            <Link href="/auth/login" legacyBehavior passHref>
               <Button variant="outline">Login</Button>
             </Link>
 
-            <Link href="/register" legacyBehavior passHref>
+            <Link href="/auth/register" legacyBehavior passHref>
               <Button>Sign Up</Button>
             </Link>
           </NavigationMenuItem>

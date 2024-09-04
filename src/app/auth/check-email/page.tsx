@@ -15,7 +15,7 @@ const CheckEmailPage :React.FC = () => {
           A verification link has been sent to your email. Please check your inbox and follow the
           instructions to verify your account.
         </p>
-        <Link href="/login">
+        <Link href="auth/login">
             <Button className="mb-6">
               Login
             </Button>

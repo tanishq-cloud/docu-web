@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage, db } from '@/lib/firebase';
-import withAuth from "../../hoc/withAuth";
+import withAuth from "../../../hoc/withAuth";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';

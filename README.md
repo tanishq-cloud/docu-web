@@ -1,8 +1,12 @@
 #  Machine-Readable Document Management System
 ## Getting Started
 
-First, run the development server:
+First, install dependencies
+```bash
+npm i
+```
 
+Then run the development server:
 ```bash
 npm run dev
 ```

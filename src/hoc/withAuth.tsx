@@ -10,7 +10,7 @@ const withAuth = (WrappedComponent: React.FC) => {
 
     useEffect(() => {
       if (!loading && !user) {
-        router.replace("/loginAuth"); // Redirect to login if not authenticated
+        router.replace("/auth/login"); // Redirect to login if not authenticated
       }
     }, [user, loading, router]);
 

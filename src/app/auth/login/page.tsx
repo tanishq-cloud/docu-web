@@ -7,7 +7,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link } from "lucide-react";
 
 const LoginAuth: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -69,6 +70,11 @@ const LoginAuth: React.FC = () => {
           </Button>
         </form>
       </CardContent>
+      <CardFooter>
+        <Link href="/auth/register">
+        New? Create Account
+        </Link>
+      </CardFooter>
     </Card>
   );
 };

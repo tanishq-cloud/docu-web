@@ -28,7 +28,7 @@ const LoginAuth: React.FC = () => {
     // Save user data to localStorage
     if (user) {
       localStorage.setItem("uid", user.uid);
-      router.push(`services/file-upload`);}
+      router.push(`/services/file-upload`);}
     } catch (err: any) {
       setError(err.message);
     } finally {

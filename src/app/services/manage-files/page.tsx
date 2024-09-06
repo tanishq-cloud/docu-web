@@ -12,8 +12,9 @@ import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { FileText, Image, Video, FileType, FileCode, FileIcon, Upload } from 'lucide-react'; 
 import Link from 'next/link';
-import { PieChartComponent } from '@/components/ChartsUtility';
+//import { PieChartComponent } from '@/components/ChartsUtility';
 import { RadialChart } from '@/components/RadialSpace';
+import withAuth from "../../../hoc/withAuth";
 
 const FileExplorer = () => {
   const tjtj = 100*1024*1024;
@@ -218,4 +219,4 @@ const FileExplorer = () => {
   );
 };
 
-export default FileExplorer;
+export default withAuth(FileExplorer);

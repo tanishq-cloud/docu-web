@@ -1,6 +1,6 @@
 import { initializeApp, getApp, getApps } from "firebase/app";
 import { getStorage, ref, listAll,uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, doc } from "firebase/firestore";
 import  { getAuth } from "firebase/auth";
 
 // fetching from .env.local
@@ -18,4 +18,4 @@ const storage = getStorage(app);
 const db = getFirestore(app);
 const auth  = getAuth(app);
 
-export { app, auth, db, storage, ref, listAll, getDownloadURL, uploadBytes};
+export { doc, app, auth, db, storage, ref, listAll, getDownloadURL, uploadBytes};

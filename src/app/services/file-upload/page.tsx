@@ -20,7 +20,7 @@ const ALLOWED_DOCUMENT_FORMATS = ['pdf', 'doc', 'docx', 'odf'];
 //In future - 'tiff', 'gif', 'webp','ppt', 'pptx', 'txt', 'csv', 'json'
 
 
-const DocumentUploader = () => {
+const DocumentUploader :React.FC = () => {
   const { toast } = useToast();
   const [file, setFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -120,7 +120,7 @@ const DocumentUploader = () => {
     }
 
     const uid = localStorage.getItem('uid');
-    const storageRef = ref(storage, `users/${uid}/${file.name}`);
+    const storageRef = ref(storage, `users/${uid}/unprocessed/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -144,13 +144,19 @@ const DocumentUploader = () => {
         const metadataDocSnap = await getDoc(metadataDocRef);
 
         const fileMetadata = {
-          filePath: `users/${uid}/${file.name}`,
+          filePath: `users/${uid}/unprocessed/${file.name}`,
           downloadURL,
           isGovernmentID,
           isLLMKnowledgeBase,
           containsImages,
           fileType,
+          proDownloadUrl: ' ',
+          processedfilePath: ' ',
+          isProcessed: false,
+          processedText: '',
+          processedJSON: '',
           uploadedAt: new Date().toISOString(),
+          fileSize: file.size,
         };
 
         if (!metadataDocSnap.exists()) {
@@ -180,6 +186,39 @@ const DocumentUploader = () => {
           toast({
             title: 'Error',
             description: 'User data not found',
+            variant: 'destructive',
+          });
+        }
+
+        const payload = {
+          input_filename: file.name,
+          output_filename: `P_${file.name}`,
+          uid: uid,
+        };
+  
+        try {
+          const response = await fetch('https://c963-103-183-203-226.ngrok-free.app/trigger-pdf-processing', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+  
+          if (!response.ok) {
+            throw new Error('Failed to process the file');
+          }
+  
+          const data = await response.json();
+          console.log('File processed successfully:', data);
+          toast({
+            title: 'File Processing',
+            description: 'Your file is being processed. You will be notified when it is ready.',
+          });
+        } catch (error) {
+          toast({
+            title: 'Error',
+            description: `File processing failed: ${error.message}`,
             variant: 'destructive',
           });
         }

@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -15,6 +15,21 @@ import {
 } from "@/components/ui/navigation-menu";
 
 const components: { title: string; href: string; description: string }[] = [
+  {
+    title: "Upload-File",
+    href: "/services/file-upload",
+    description: "Get free 100MB of storage. Upload a file in the document management system and extract non-machine-readable text.",
+  },
+  {
+    title: "View File",
+    href: "/services/manage-files",
+    description: "View all your files.",
+  },
+  {
+    title: "Chat with your file",
+    href: "/services/chat",
+    description: "You can chat with your file having a knowledge base tag.",
+  },
   {
     title: "Compress Image",
     href: "reading/comming-soon",
@@ -30,26 +45,13 @@ const components: { title: string; href: string; description: string }[] = [
     href: "/reading/comming-soon",
     description: "Get analytical charts for documents with analytical data.",
   },
-  {
-    title: "Chat with your file",
-    href: "/reading/comming-soon",
-    description: "You can chat with your file having a knowledge base tag.",
-  },
-  {
-    title: "Upload-File",
-    href: "/services/file-upload",
-    description: "Get free 100MB of storage. Upload a file in the document management system and extract non-machine-readable text.",
-  },
-  {
-    title: "View File",
-    href: "/services/manage-files",
-    description: "View all your files.",
-  },
+  
+  
 ];
 
 export function NavigationMenuAll() {
   return (
-    <div className="flex justify-center mt-16"> {/* Centers the menu horizontally and moves it down */}
+    <div className="flex justify-center  mt-16"> 
       <NavigationMenu className="w-full max-w-4xl">
         <NavigationMenuList>
         <NavigationMenuItem>
@@ -72,20 +74,20 @@ export function NavigationMenuAll() {
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <Link href="reading/blogs" legacyBehavior passHref>
+            <Link href="/read/blogs" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>Blogs</NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
 
           {/* Login and Sign Up */}
           <NavigationMenuItem className="space-x-4">
-            <Link href="/auth/login" legacyBehavior passHref>
+            <Link href="/services/login" legacyBehavior passHref>
               <Button variant="outline">Login</Button>
             </Link>
 
-            <Link href="/auth/register" legacyBehavior passHref>
+            {/* <Link href="/auth/register" legacyBehavior passHref>
               <Button>Sign Up</Button>
-            </Link>
+            </Link> */}
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>

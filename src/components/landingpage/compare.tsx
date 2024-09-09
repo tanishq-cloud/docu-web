@@ -1,6 +1,9 @@
 import React from "react";
 import { Compare } from "@/components/ui/compare";
 import { BackgroundLines } from "../ui/backgroud-lines";
+// import before from '/before.png';
+import Image from 'next/image';
+import before from '../public/before.png'; 
 
 export function CompareText() {
   return (
@@ -14,8 +17,10 @@ export function CompareText() {
         {/* Compare Component */}
         <div className="flex-shrink-0">
           <Compare
-            firstImage="/before.png"
-            secondImage="/after.png"
+            // firstImage="https://firebasestorage.googleapis.com/v0/b/docu-team.appspot.com/o/public%2Fbefore.png?alt=media&token=131144d3-3f3c-4e85-adfd-afcd4e21a52c"
+            // secondImage="https://firebasestorage.googleapis.com/v0/b/docu-team.appspot.com/o/public%2Fafter.png?alt=media&token=59dbdd1e-60b2-4518-8bc4-6ad89f4b25ef"
+            firstImage='/before.png'
+            secondImage='/after.png'
             firstImageClassName="object-cover object-left-top"
             secondImageClassname="object-cover object-left-top"
             className="h-[250px] w-[200px] md:h-[500px] md:w-[500px]"

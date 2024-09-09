@@ -28,7 +28,7 @@ export default function LandingPage() {
           <p className="text-base sm:text-lg lg:text-xl text-gray-600">
             Revolutionizing document management with AI and automation.
           </p>
-          <Link href='/register'>
+          <Link href='/auth/register'>
             <Button className="mt-6">
               Sign-up to Explore
             </Button>

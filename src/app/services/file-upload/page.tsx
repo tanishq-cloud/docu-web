@@ -139,7 +139,10 @@ const DocumentUploader :React.FC = () => {
       async () => {
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
-        // Update metadata collection
+        // Update metadata 
+        if (uid === null) {
+          throw new Error('UID cannot be null');
+        }
         const metadataDocRef = doc(db, 'metadata', uid);
         const metadataDocSnap = await getDoc(metadataDocRef);
 
@@ -216,11 +219,19 @@ const DocumentUploader :React.FC = () => {
             description: 'Your file is being processed. You will be notified when it is ready.',
           });
         } catch (error) {
-          toast({
-            title: 'Error',
-            description: `File processing failed: ${error.message}`,
-            variant: 'destructive',
-          });
+          // toast({
+          //   title: 'Error',
+          //   description: `File processing failed: ${error.message}`,
+          //   variant: 'destructive',
+          // });
+
+          if (error instanceof Error) {
+            toast({
+              title: 'Error',
+              description: `File processing failed: ${error.message}`,
+              variant: 'destructive',
+            });
+          } 
         }
 
         setUploadProgress(0);

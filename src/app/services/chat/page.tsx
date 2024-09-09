@@ -59,7 +59,7 @@ const ChatWithFiles = () => {
     setSelectedFile({ filename, proDownloadUrl });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!uid || !username || !prompt || !selectedFile) {
       return;
@@ -106,12 +106,14 @@ const ChatWithFiles = () => {
       setMessages((prevMessages) => [...prevMessages, responseMessage]);
       setPrompt(""); // Clear the input field after message sent
       setLoading(false);
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: `Connection failed: ${error.message}`,
-        variant: 'destructive',
-      });
+    } catch (error:unknown) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Custom Error',
+          description: `Custom error occurred: ${error.message}`,
+          variant: 'destructive',
+        });
+      } 
     }
 
     try {

@@ -40,6 +40,8 @@ export default function ServiceLayout({ children }: { children: React.ReactNode 
     <>
     <section>
         <ServiceNavigation uid={uid} username={username}/>
-    </section> {children}</>
+    </section> 
+    <section>{children}</section>
+    </>
   );
 }

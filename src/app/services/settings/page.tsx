@@ -97,7 +97,7 @@ const ProfileSettings = () => {
         <DialogContent>
           <DialogTitle>Edit Profile</DialogTitle>
           <DialogDescription>
-            Update your full name below and click 'Save' to update your profile information.
+            Update your full name below and click &lsquo;Save&rsquo; to update your profile information.
           </DialogDescription>
 
           <div className="mb-4">

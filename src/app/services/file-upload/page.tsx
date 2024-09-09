@@ -289,7 +289,7 @@ const DocumentUploader :React.FC = () => {
         <div className="w-full md:w-1/2 p-4">
           <h2 className="text-lg font-semibold mb-4">Why this matters</h2>
           <p className="mb-4">
-            <strong>Government or Identity Document:</strong> It's crucial to keep your identity
+            <strong>Government or Identity Document:</strong> It&apos;s crucial to keep your identity
             documents safe. Uploading them is safe on this platform.
             However, make sure to be cautious and upload only what is necessary.
           </p>

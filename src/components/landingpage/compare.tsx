@@ -14,8 +14,8 @@ export function CompareText() {
         {/* Compare Component */}
         <div className="flex-shrink-0">
           <Compare
-            firstImage="before.png"
-            secondImage="after.png"
+            firstImage="/before.png"
+            secondImage="/after.png"
             firstImageClassName="object-cover object-left-top"
             secondImageClassname="object-cover object-left-top"
             className="h-[250px] w-[200px] md:h-[500px] md:w-[500px]"
@@ -30,7 +30,7 @@ export function CompareText() {
           </h2>
           <p className="max-w-xl text-sm md:text-lg text-neutral-700 dark:text-neutral-400">
             Say goodbye to squinting at blurry scans! Our software magically transforms non-machine-readable files into crisp, clear text. 
-            It's like having a wizard in your computer! 🧙‍♂️✨
+            It&apos;s like having a wizard in your computer! 🧙‍♂️✨
           </p>
         </div>
       </div>

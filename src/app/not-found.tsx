@@ -14,10 +14,10 @@ const Custom404: React.FC = () => {
         </CardHeader>
         <CardContent>
           <p className="text-xl font-semibold mb-4">
-            Oops! We couldn't find the page you're looking for.
+            Oops! We couldn&apos;t find the page you&apos;re looking for.
           </p>
           <p className="mb-6">
-            It seems the page you were trying to reach doesn't exist or has been moved. Don't worry, you can find plenty of other things on our homepage.
+            It seems the page you were trying to reach doesn&apos;t exist or has been moved. Don&apos;t worry, you can find plenty of other things on our homepage.
           </p>
           <Link href="/">
             <Button className="mb-6">
@@ -32,7 +32,7 @@ const Custom404: React.FC = () => {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="faq2">
-              <AccordionTrigger>How can I find what I'm looking for?</AccordionTrigger>
+              <AccordionTrigger>How can I find what I&apos;m looking for?</AccordionTrigger>
               <AccordionContent>
                 You can go back to our homepage and use the navigation menu to find what you need, or contact our support team for assistance.
               </AccordionContent>

@@ -23,8 +23,8 @@ export function ChatWithFile() {
           <Image
             src="/chatwithyourfile.png" 
             alt="Chat with Files"
-            width={500}
-            height={500}
+            width="500"
+            height="500"
             className="object-cover object-center h-[250px] w-[200px] md:h-[500px] md:w-[500px]"
           />
         </div>

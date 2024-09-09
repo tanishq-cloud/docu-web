@@ -89,7 +89,7 @@ export default function ServiceNavigation({ username, uid }: ServiceNavigationPr
               color="secondary"
               name={username} 
               size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              src="/profile_pic.png"
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">

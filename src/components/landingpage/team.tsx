@@ -7,42 +7,42 @@ const people = [
     name: "Tanishq",
     designation: "Frontend and Backend Developer",
     image:
-      "/im.png",
+      "/profile_pic.png",
   },
   {
     id: 2,
     name: "Sushant",
     designation: "Team Leader",
     image:
-      "/im.png",
+      "/profile_pic.png",
   },
   {
     id: 3,
     name: "Ajay",
-    designation: "Attack Helicopter",
+    designation: "AI/ML Developer",
     image:
-      "/im.png",
+      "/profile_pic.png",
   },
   {
     id: 4,
     name: "Prashanth",
     designation: "AI/ML Developer",
     image:
-      "/im.png",
+      "/profile_pic.png",
   },
   {
     id: 5,
     name: "Nidhi",
     designation: "Developer",
     image:
-      "/im.png",
+      "/profile_pic.png",
   },
   {
     id: 6,
     name: "Shreya",
     designation: "The Researcher",
     image:
-      "/im.png",
+      "/profile_pic.png",
   },
 ];
 

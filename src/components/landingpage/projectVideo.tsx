@@ -7,14 +7,14 @@ export default function ProjectVideo() {
         className="dark:hidden block"
         animationStyle="top-in-bottom-out"
         videoSrc="https://www.youtube.com/embed/dQw4w9WgXcQ?si=ukzqHVWjTndaFbjK"
-        thumbnailSrc="im.png"
+        thumbnailSrc="/im.png"
         thumbnailAlt="Pitch Deck"
       />
       <HeroVideoDialog
         className="hidden dark:block"
         animationStyle="top-in-bottom-out"
         videoSrc="https://www.youtube.com/embed/dQw4w9WgXcQ?si=ukzqHVWjTndaFbjK"
-        thumbnailSrc="im.png"
+        thumbnailSrc="/im.png"
         thumbnailAlt="Pitch Deck"
       />
     </div>

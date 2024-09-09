@@ -54,13 +54,18 @@ export default function LandingPage() {
         
       </div>
 
-      <footer className="flex items-center justify-between p-4 bg-gray-100 text-black">
-      <div className="text-lg font-semibold"><IconAssetFilled /><p>DocuSpace</p></div>
-      <div className="flex items-center">
-        <span className="mr-4">Developed by:</span>
-        <TeamLandingPage />
-      </div>
-    </footer>
+      <footer className="flex flex-col sm:flex-row items-center justify-between p-4 bg-gray-100 text-black">
+  <div className="flex items-center space-x-2 text-lg font-semibold mb-2 sm:mb-0 sm:ml-12">
+    <IconAssetFilled />
+    <p>DocuSpace</p>
+  </div>
+  
+  <div className="flex flex-col sm:flex-row items-center space-x-2 sm:space-x-4 sm:mr-12">
+    <span className="text-center sm:text-left">Developed by:</span>
+    <TeamLandingPage />
+  </div>
+</footer>
+
     </>
   );
 }

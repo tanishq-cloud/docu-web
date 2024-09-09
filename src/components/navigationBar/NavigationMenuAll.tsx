@@ -32,17 +32,17 @@ const components: { title: string; href: string; description: string }[] = [
   },
   {
     title: "Compress Image",
-    href: "reading/comming-soon",
+    href: "/read",
     description: "Compress the image file in the browser.",
   },
   {
     title: "Compress PDF",
-    href: "/reading/comming-soon",
+    href: "/read",
     description: "Compress the PDF file in the browser.",
   },
   {
     title: "Analyse Document",
-    href: "/reading/comming-soon",
+    href: "/read",
     description: "Get analytical charts for documents with analytical data.",
   },
   

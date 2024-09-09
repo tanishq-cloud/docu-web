@@ -66,8 +66,8 @@ const ProfileSettings = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10">
-      <h1 className="text-2xl font-bold mb-6">Profile Settings</h1>
+    <div className="max-w-md w-full mx-auto mt-10 p-4 sm:p-6 md:p-8">
+      <h1 className="text-2xl font-bold mb-6 text-center">Profile Settings</h1>
 
       <div className="mb-4">
         <label className="block text-sm font-medium">Username</label>
@@ -87,16 +87,16 @@ const ProfileSettings = () => {
       {/* Edit Button */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline" className="flex items-center gap-2">
+          <Button variant="outline" className="flex items-center gap-2 w-full justify-center">
             <IconEdit size={16} />
             Edit Profile
           </Button>
         </DialogTrigger>
 
         {/* Dialog for editing the profile */}
-        <DialogContent>
-          <DialogTitle>Edit Profile</DialogTitle>
-          <DialogDescription>
+        <DialogContent className="w-full max-w-sm mx-auto p-6">
+          <DialogTitle className="text-center">Edit Profile</DialogTitle>
+          <DialogDescription className="text-center mb-4">
             Update your full name below and click &lsquo;Save&rsquo; to update your profile information.
           </DialogDescription>
 
@@ -109,7 +109,7 @@ const ProfileSettings = () => {
             />
           </div>
 
-          <Button onClick={handleFormSubmit}>Save</Button>
+          <Button onClick={handleFormSubmit} className="w-full">Save</Button>
         </DialogContent>
       </Dialog>
     </div>

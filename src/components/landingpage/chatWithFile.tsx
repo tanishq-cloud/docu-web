@@ -20,13 +20,21 @@ export function ChatWithFile() {
         </div>
         {/* Image */}
         <div className="flex-shrink-0">
-          <Image
-            src="/chatwithyourfile.png" 
-            alt="Chat with Files"
-            width="500"
-            height="500"
-            className="object-cover object-center h-[250px] w-[200px] md:h-[500px] md:w-[500px]"
-          />
+        <img
+  src="/chatwithyourfile.png"
+  alt="Chat with Files"
+ 
+  style={{
+    objectFit: 'cover',
+    objectPosition: 'center',
+    height: '500',
+    width: '500'
+  }}
+  className="md:h-[500px] md:w-[500px]"
+/>
+
+
+       
         </div>
         
       </div>
